@@ -7,10 +7,12 @@ jobs:
     name: A job to say hello
     steps:
       - name: Hello world action step
-        id: hello
+        id: reverse
         uses: vgeorge-fi/js-actions-reverse@v1.0.0
         with:
-          who-to-greet: 'Mona the Octocat'
+          text: 'VINEETH JACOB GEORGE'
       # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: |
+            echo "Input':' ${{ steps.reverse.outputs.text }}"
+            echo "Input ${{ steps.reverse.outputs.text }}"

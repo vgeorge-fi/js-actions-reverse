@@ -1,12 +1,12 @@
 name: 'reverse'
 description: 'Outputs the reverse of given string.'
 inputs:
-  who-to-greet:  #id
-    description: 'Who to greet'
+  text:  #id
+    description: 'Input text to be reversed.'
     required: true
-    default: 'World'
+    default: 'FISHER INVESTMENTS'
 outputs:
-  time: #id
+  text: #id
     description: 'Outputs the original text.'
   reverse: #id
     description: 'Outputs the reversed text.'

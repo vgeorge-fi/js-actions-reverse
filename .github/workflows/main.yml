@@ -1,3 +1,4 @@
+name: reverse
 on: [workflow_dispatch]
 
 jobs:

@@ -6,13 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Job reverse'
     steps:
-      - name: 'Invoke js action, reverse.'
+      - name: 'Invoke js action, reverse'
         id: reverse
         uses: vgeorge-fi/js-actions-reverse@v1.0.0
         with:
           who-to-greet: 'VINEETH JACOB GEORGE'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: |
-            echo "Input':' ${{ steps.reverse.outputs.text }}"
-            echo "Input ${{ steps.reverse.outputs.text }}"
+
+      - name: 'Gets output'
+        run: echo "Input ${{ steps.reverse.outputs.reverse }}"

@@ -2808,7 +2808,7 @@ try {
     const text = core.getInput('text');
     const reverse = text ? text.split('').reverse().join('') : text;
 
-    console.log('\n');
+    console.log('');
     console.log(`text: ${text}`);
     console.log(`reverse: ${reverse}`);
     core.setOutput("text", text);

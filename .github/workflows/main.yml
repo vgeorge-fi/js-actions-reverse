@@ -1,12 +1,12 @@
-name: reverse
+name: Reverse
 on: [workflow_dispatch]
 
 jobs:
-  hello_world_job:
+  job_reverse:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: 'Job reverse'
     steps:
-      - name: Hello world action step
+      - name: 'Invoke js action, reverse.'
         id: reverse
         uses: vgeorge-fi/js-actions-reverse@v1.0.0
         with:

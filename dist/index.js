@@ -2812,6 +2812,7 @@ try {
     console.log(`reverse ${reverse}`);
 
     core.setOutput("text", text);
+    core.setOutput("reverse", reverse);
 } catch (error) {
     core.setFailed(error.message);
 }

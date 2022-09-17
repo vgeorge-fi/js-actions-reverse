@@ -1,15 +1,18 @@
 name: 'reverse'
 description: 'Outputs the reverse of given string.'
+
 inputs:
   text:  #id
     description: 'Input text to be reversed.'
     required: true
     default: 'FISHER INVESTMENTS'
+
 outputs:
   text: #id
     description: 'Outputs the original text.'
   reverse: #id
     description: 'Outputs the reversed text.'
+
 runs:
   using: 'node16'
   main: 'dist/index.js'

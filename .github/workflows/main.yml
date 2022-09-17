@@ -8,9 +8,9 @@ jobs:
     steps:
       - name: 'Invoke js action, reverse'
         id: reverse
-        uses: vgeorge-fi/js-actions-reverse@v1.0.0
+        uses: vgeorge-fi/js-actions-reverse@v1.0.1
         with:
           who-to-greet: 'VINEETH JACOB GEORGE'
 
-      - name: 'Gets output'
+      - name: 'Gets output '
         run: echo "Input ${{ steps.reverse.outputs.reverse }}"

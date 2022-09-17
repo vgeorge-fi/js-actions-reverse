@@ -2,7 +2,7 @@ name: 'reverse'
 description: 'Outputs the reverse of given string.'
 
 inputs:
-  who-to-greet:  #id
+  text:  #id
     description: 'Input text to be reversed.'
     required: true
     default: 'FISHER INVESTMENTS'

@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 
 try {
-    const text = core.getInput('text');
+    const text = core.getInput('who-to-greet');
     const reverse = text ? text.split('').reverse().join('') : text;
 
     console.log(`text ${text}`);

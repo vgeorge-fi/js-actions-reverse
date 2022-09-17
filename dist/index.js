@@ -2805,7 +2805,7 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(550);
 
 try {
-    const text = core.getInput('text');
+    const text = core.getInput('who-to-greet');
     const reverse = text ? text.split('').reverse().join('') : text;
 
     console.log(`text ${text}`);

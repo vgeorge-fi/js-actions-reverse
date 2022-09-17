@@ -10,7 +10,7 @@ jobs:
         id: reverse
         uses: vgeorge-fi/js-actions-reverse@v1.0.0
         with:
-          text: 'VINEETH JACOB GEORGE'
+          who-to-greet: 'VINEETH JACOB GEORGE'
       # Use the output from the `hello` step
       - name: Get the output time
         run: |

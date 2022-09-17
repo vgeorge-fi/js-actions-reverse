@@ -8,12 +8,12 @@ jobs:
     steps:
       - name: 'Invoke js action, reverse'
         id: reverse
-        uses: vgeorge-fi/js-actions-reverse@v1.0.5
+        uses: vgeorge-fi/js-actions-reverse@v1.0.6
         with:
           text: 'Vineeth Jacob George'
 
       - name: 'Gets output'
         run: |
             echo 
-            echo 'Input: ${{ steps.reverse.outputs.text }}'
+            echo ' Input: ${{ steps.reverse.outputs.input }}'
             echo 'Output: ${{ steps.reverse.outputs.reverse }}'

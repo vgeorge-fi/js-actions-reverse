@@ -5,9 +5,10 @@ try {
     const reverse = text ? text.split('').reverse().join('') : text;
 
     console.log('');
-    console.log(`text: ${text}`);
-    console.log(`reverse: ${reverse}`);
-    core.setOutput("text", text);
+    console.log(` Input: ${text}`);
+    console.log(`Output: ${reverse}`);
+
+    core.setOutput("input", text);
     core.setOutput("reverse", reverse);
 } catch (error) {
     core.setFailed(error.message);

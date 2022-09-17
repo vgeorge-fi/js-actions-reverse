@@ -14,5 +14,6 @@ jobs:
 
       - name: 'Gets output'
         run: |
-            echo "Input ${{ steps.reverse.outputs.text }}"
-            echo "Output ${{ steps.reverse.outputs.reverse }}"
+            echo 
+            echo 'Input:: ${{ steps.reverse.outputs.text }}'
+            echo 'Output:: ${{ steps.reverse.outputs.reverse }}'

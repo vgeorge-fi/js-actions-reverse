@@ -1,4 +1,4 @@
-name: DEV1 a00005 Application Workload
+name: GET SECRETS
 
 on:
   workflow_dispatch:

